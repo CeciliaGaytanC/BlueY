@@ -1,0 +1,113 @@
+bottomNavigationBar: BottomNavyBar(
+   selectedIndex: _selectedIndex,
+   showElevation: true, // use this to remove appBar's elevation
+   onItemSelected: (index) => setState(() {
+              _selectedIndex = index;
+              _pageController.animateToPage(index,
+                  duration: Duration(milliseconds: 300), curve: Curves.ease);
+    }),
+   items: [
+     BottomNavyBarItem(
+       icon: Icon(Icons.apps),
+       title: Text('Home'),
+       activeColor: Colors.red,
+     ),
+     BottomNavyBarItem(
+         icon: Icon(Icons.people),
+         title: Text('Users'),
+         activeColor: Colors.purpleAccent
+     ),
+     BottomNavyBarItem(
+         icon: Icon(Icons.message),
+         title: Text('Messages'),
+         activeColor: Colors.pink
+     ),
+     BottomNavyBarItem(
+         icon: Icon(Icons.settings),
+         title: Text('Settings'),
+         activeColor: Colors.blue
+     ),
+   ],
+)
+
+
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  //final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+
+int _currentPage = 0;
+  final _pageController = PageController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        children: [
+          Container(color: Colors.blue),
+          Container(color: Colors.red),
+          Container(color: Colors.greenAccent.shade700),
+          Container(color: Colors.orange),
+        ],
+        onPageChanged: (index) {
+          // Use a better state management solution
+          // setState is used for simplicity
+          setState(() => _currentPage = index);
+        },
+      ),
+      bottomNavigationBar: BottomBar(
+        selectedIndex: _currentPage,
+        onTap: (int index) {
+          _pageController.jumpToPage(index);
+          setState(() => _currentPage = index);
+        },
+        items: <BottomBarItem>[
+          BottomBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+            activeColor: Colors.blue,
+          ),
+          BottomBarItem(
+            icon: Icon(Icons.favorite),
+            title: Text('Favorites'),
+            activeColor: Colors.red,
+          ),
+          BottomBarItem(
+            icon: Icon(Icons.person),
+            title: Text('Account'),
+            activeColor: Colors.greenAccent.shade700,
+          ),
+          BottomBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('Settings'),
+            activeColor: Colors.orange,
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
+  import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+
+Scaffold(
+  bottomNavigationBar: ConvexAppBar(
+    items: [
+      TabItem(icon: Icons.home, title: 'Home'),
+      TabItem(icon: Icons.map, title: 'Discovery'),
+      TabItem(icon: Icons.add, title: 'Add'),
+      TabItem(icon: Icons.message, title: 'Message'),
+      TabItem(icon: Icons.people, title: 'Profile'),
+    ],
+    initialActiveIndex: 2,//optional, default as 0
+    onTap: (int i) => print('click index=$i'),
+  )
+);
